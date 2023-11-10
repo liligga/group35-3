@@ -2,17 +2,14 @@ import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 import logging
+from dotenv import load_dotenv
+from os import getenv
+from handlers import start_router
 
 
-BOT_TOKEN = '6553398272:AAHZU4mzCRhFC8ucPLLZH7cGHfdolDiHCWQ'
-bot = Bot(token=BOT_TOKEN)
+load_dotenv()
+bot = Bot(token=getenv('BOT_TOKEN'))
 dp = Dispatcher()
-
-
-@dp.message(Command("start"))
-async def start(message: types.Message):
-    # await message.reply("hi")
-    await message.answer(f"hi {message.from_user.username} {message.from_user.first_name}")
 
 @dp.message(Command("pic"))
 async def pic(message: types.Message):
@@ -22,7 +19,7 @@ async def pic(message: types.Message):
         caption="Кошка"
     )
 
-@dp.message()
+# @dp.message()
 async def echo(message: types.Message):
     # print(message)
     # print(message.text)
@@ -30,6 +27,9 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 async def main():
+    dp.include_router(start_router)
+
+
     await dp.start_polling(bot)
 
 
