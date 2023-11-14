@@ -6,7 +6,8 @@ from handlers import (
     start_router, 
     echo_router,
     picture_router,
-    shop_router
+    shop_router,
+    questions_router
 )
 
 
@@ -15,11 +16,13 @@ async def main():
         BotCommand(command="start", description="Начало"),
         BotCommand(command="pic", description="Показать картинку"),
         BotCommand(command="shop", description="Магазин"),
+        BotCommand(command="quest", description="Опросник"),
     ])
 
     dp.include_router(start_router)
     dp.include_router(picture_router)
     dp.include_router(shop_router)
+    dp.include_router(questions_router)
 
     # в самом конце
     dp.include_router(echo_router)
