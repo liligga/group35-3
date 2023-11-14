@@ -1,10 +1,14 @@
-from aiogram import Router, F ,types
+from aiogram import F, Router, types
 from aiogram.filters import Command
 
 start_router = Router()
 
 @start_router.message(Command("start"))
 async def start(message: types.Message):
+    """
+    Обработка команды /start
+    """
+
     # await message.reply("hi")
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[

@@ -1,4 +1,4 @@
-from aiogram import Router, F, types
+from aiogram import F, Router, types
 from aiogram.filters import Command
 
 shop_router = Router()

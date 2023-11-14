@@ -1,14 +1,12 @@
-from aiogram.types import BotCommand
 import asyncio
 import logging
-from bot import dp, bot
-from handlers import (
-    start_router, 
-    echo_router,
-    picture_router,
-    shop_router,
-    questions_router
-)
+
+from aiogram.types import BotCommand
+
+from handlers.start import start
+from bot import bot, dp
+from handlers import (echo_router, picture_router, questions_router,
+                      shop_router, start_router)
 
 
 async def main():
