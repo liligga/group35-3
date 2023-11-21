@@ -59,6 +59,21 @@ def populate_tables():
     )
     db.commit()
 
+
+def delete_product():
+    # cursor.execute(
+    #     """
+    #     DELETE FROM products WHERE id = 1
+    #     """
+    # )
+    cursor.execute(
+        """
+        DELETE FROM products WHERE name ILIKE 'мастер и маргарита'
+        """
+    )
+    db.commit()
+
+
 def get_products():
     cursor.execute(
         # """
@@ -71,11 +86,46 @@ def get_products():
     return cursor.fetchall()
 
 
+# get_product_by_category_id(1)
+def get_product_by_category_id(category_id: int):
+    cursor.execute(
+        """
+        SELECT * FROM products WHERE category_id = :cat_id
+        """, {"cat_id": category_id}
+    )
+
+    return cursor.fetchall()
+
+
+def get_product_by_category_name(cat_name: str):
+    cursor.execute(
+        """
+        SELECT * FROM products WHERE category_id = 
+        (
+            SELECT id FROM category WHERE name = :cat_name
+        )
+        """, {"cat_name": cat_name}
+    )
+    return cursor.fetchall()
+
+
+def get_products_with_category():
+    cursor.execute(
+        """
+        SELECT p.name, c.name FROM products AS p JOIN category AS c ON p.category_id = c.id
+        """
+    )
+    return cursor.fetchall()
+
+
 if __name__ == "__main__":
     init_db()
     create_tables()
     populate_tables()
-    pprint(get_products())
+    # pprint(get_products())
+    # pprint(get_product_by_category_id(2))
+    # pprint(get_product_by_category_name("Книги"))
+    pprint(get_products_with_category())
 
 # PRIMARY KEY первичный ключ
 # FOREIGN KEY внешний ключ
