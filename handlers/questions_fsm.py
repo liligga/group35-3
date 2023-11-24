@@ -3,6 +3,9 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
+from db.queries import save_questionaire
+
+
 questions_router = Router()
 
 
@@ -56,16 +59,23 @@ async def process_age(message: types.Message, state: FSMContext):
             ]
         )
         await state.set_state(Questionaire.gender)
-        await message.answer("Ваш пол?")
+        await message.answer("Ваш пол?", reply_markup=kb)
 
 
 @questions_router.message(F.text, Questionaire.gender)
 async def process_gender(message: types.Message, state: FSMContext):
     await state.update_data(gender=message.text)
+    await state.set_state(Questionaire.country)
+    await message.answer("Ваша страна?", reply_markup=types.ReplyKeyboardRemove())
 
+
+@questions_router.message(F.text, Questionaire.country)
+async def process_country(message: types.Message, state: FSMContext):
+    await state.update_data(country=message.text)
     # save to DB
     data = await state.get_data()
-    print(data)
+    save_questionaire(data)
+    # print(data)
     # clear state and Bye message
     await state.clear()
     await message.answer("Спасибо, мы с вами свяжемся")

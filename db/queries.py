@@ -22,6 +22,17 @@ def create_tables():
     )
     cursor.execute(
         """
+        CREATE TABLE IF NOT EXISTS Questionaire (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            age INTEGER,
+            gender TEXT,
+            country TEXT
+        )
+        """
+    )
+    cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS category (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT
@@ -116,6 +127,16 @@ def get_products_with_category():
         """
     )
     return cursor.fetchall()
+
+
+def save_questionaire(data):
+    print(data)
+    cursor.execute(
+        """
+        INSERT INTO Questionaire (name, age, gender, country) VALUES (:name, :age, :gender, :country)
+        """, data
+    )
+    db.commit()
 
 
 if __name__ == "__main__":
