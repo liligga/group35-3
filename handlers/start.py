@@ -36,5 +36,6 @@ async def start(message: types.Message):
 
 @start_router.callback_query(F.data == "about")
 async def about_us(callback: types.CallbackQuery):
+    # print(callback.data)
     await callback.answer() # чтобы долго не грузилось
     await callback.message.answer("Текст 'О нас'")
